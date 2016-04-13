@@ -23,3 +23,125 @@ npm run e2e
 # run all tests
 npm test
 ```
+
+## 多页面配置
+
+比如说，我的项目文件结构如下
+webpack
+    |---build
+    |---src
+         |---assets 资源
+         |---components组件
+         |---module各个模块
+             |---index    index模块
+                    |---index.html
+                    |---index.js
+                    |---index.vue
+             |---info       info模块
+                    |---info.html
+                    |---info.js
+                    |---info.vue  
+                    
+
+修改webpack.base.conf.js文件
+
+var glob = require('glob');
+var entries = getEntry('./src/module/**/*.js'); // 获得入口js文件
+function getEntry(globPath) {
+  var entries = {},
+    basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+    entries[pathname] = entry;
+  });
+  console.log(entries);
+  return entries;
+}
+
+module.exports = {
+  entry: entries,
+  ***
+}
+
+修改webpack.dev.conf.js文件
+
+var glob = require('glob');
+module.exports = merge(baseWebpackConfig, {
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]
+})
+
+function getEntry(globPath) {
+  var entries = {},
+    basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+    entries[pathname] = entry;
+  });
+  console.log(entries);
+  return entries;
+}
+
+var pages = getEntry('./src/module/**/*.html');
+
+for (var pathname in pages) {
+  // 配置生成的html文件，定义路径等
+  var conf = {
+    filename: pathname + '.html',
+    template: pages[pathname], // 模板路径
+    inject: true              // js插入位置
+  };
+  // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
+  module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+}
+
+修改webpack.prod.conf.js文件
+
+var glob = require('glob');
+module.exports = merge(baseWebpackConfig, {
+  ***
+  plugins: [
+    ***
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new ExtractTextPlugin(path.join(config.build.assetsSubDirectory, '[name].[contenthash].css'))
+  ]
+})
+
+function getEntry(globPath) {
+  var entries = {},
+    basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+    entries[pathname] = entry;
+  });
+  console.log(entries);
+  return entries;
+}
+
+var pages = getEntry('./src/module/**/*.html');
+
+for (var pathname in pages) {
+  console.log(pathname);
+  // 配置生成的html文件，定义路径等
+  var conf = {
+    // filename: pathname + '.html',
+    filename: pathname + '.html',
+    template: pages[pathname], // 模板路径
+    inject: true              // js插入位置
+  };
+  // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
+  module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+}
