@@ -27,7 +27,8 @@ npm test
 ## 多页面配置
 
 比如说，我的项目文件结构如下
-``` webpack
+``` 
+    webpack
       |---build
         |---src
           |---assets 资源
