@@ -27,20 +27,20 @@ npm test
 ## 多页面配置
 
 比如说，我的项目文件结构如下
-webpack
-    |---build
-    |---src
-         |---assets 资源
-         |---components组件
-         |---module各个模块
-             |---index    index模块
-                    |---index.html
-                    |---index.js
-                    |---index.vue
-             |---info       info模块
-                    |---info.html
-                    |---info.js
-                    |---info.vue  
+    webpack
+        |---build
+        |---src
+             |---assets 资源
+             |---components组件
+             |---module各个模块
+                 |---index    index模块
+                        |---index.html
+                        |---index.js
+                        |---index.vue
+                 |---info       info模块
+                        |---info.html
+                        |---info.js
+                        |---info.vue  
                     
 
 修改webpack.base.conf.js文件
