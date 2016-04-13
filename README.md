@@ -28,20 +28,19 @@ npm test
 
 比如说，我的项目文件结构如下
     webpack
-        |---build
+      |---build
         |---src
-             |---assets 资源
-             |---components组件
-             |---module各个模块
-                 |---index    index模块
-                        |---index.html
-                        |---index.js
-                        |---index.vue
-                 |---info       info模块
-                        |---info.html
-                        |---info.js
-                        |---info.vue  
-                    
+          |---assets 资源
+          |---components组件
+          |---module各个模块
+            |---index    index模块
+              |---index.html
+              |---index.js
+              |---index.vue
+            |---info       info模块
+              |---info.html
+              |---info.js
+              |---info.vue
 
 修改webpack.base.conf.js文件
 
