@@ -27,7 +27,7 @@ npm test
 ## 多页面配置
 
 比如说，我的项目文件结构如下
-    webpack
+``` webpack
       |---build
         |---src
           |---assets 资源
@@ -41,6 +41,7 @@ npm test
               |---info.html
               |---info.js
               |---info.vue
+  ```
 
 修改webpack.base.conf.js文件
 
