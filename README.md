@@ -46,7 +46,7 @@ vue多页面入口,是由webpack配置来完成的
 
 修改webpack.base.conf.js文件
 
-    var glob = require('glob');
+    var glob = require('glob'); //这里的glob是nodejs的glob模块，是用来读取webpack入口目录文件的
     var entries = getEntry('./src/module/**/*.js'); // 获得入口js文件
     function getEntry(globPath) {
       var entries = {},
