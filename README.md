@@ -30,18 +30,18 @@ vue多页面入口,是由webpack配置来完成的
 ``` 
     webpack
       |---build
-        |---src
-          |---assets 资源
-          |---components组件
-          |---module各个模块
-            |---index    index模块
-              |---index.html
-              |---index.js
-              |---index.vue
-            |---info       info模块
-              |---info.html
-              |---info.js
-              |---info.vue
+      |---src
+        |---assets 资源
+        |---components组件
+        |---module各个模块
+          |---index    index模块
+            |---index.html
+            |---index.js
+            |---index.vue
+          |---info       info模块
+            |---info.html
+            |---info.js
+            |---info.vue
   ```
 
 修改webpack.base.conf.js文件
