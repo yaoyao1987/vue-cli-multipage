@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-    <title>oa-vue</title>
-  </head>
-  <body>
-    <app></app>
+    <title>vue-cli-mulit index</title>
+</head>
+
+<body>
+    <div id="index">
+        <ul>
+            <li>
+                <router-link to='/index'>index</router-link>
+            </li>
+            <li>
+                <router-link to='/add'>add</router-link>
+            </li>
+            <li>
+                <router-link to='/list'>list</router-link>
+            </li>
+        </ul>
+        <router-view class='view'></router-view>
+    </div>
     <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
