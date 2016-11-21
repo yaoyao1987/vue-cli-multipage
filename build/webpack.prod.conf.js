@@ -12,7 +12,7 @@ var env = process.env.NODE_ENV === 'testing'
 
 var glob = require('glob');
 
-var webpackConfig = merge(baseWebpackConfig, {
+module.exports = merge(baseWebpackConfig, {
   module: {
     loaders: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: true })
   },
@@ -102,7 +102,7 @@ if (config.build.productionGzip) {
 }
 
 function getEntry(globPath) {
-  var entries = {},
+  var entries = [],
     basename, tmp, pathname;
 
   glob.sync(globPath).forEach(function (entry) {
@@ -119,13 +119,11 @@ var pages = getEntry('./src/module/**/*.html');
 for (var pathname in pages) {
   // 配置生成的html文件，定义路径等
   var conf = {
-    // filename: pathname + '.html',
     filename: pathname + '.html',
     template: pages[pathname], // 模板路径
+    chunks: [pathname], // 每个html引用的js模块
     inject: true              // js插入位置
   };
   // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
   module.exports.plugins.push(new HtmlWebpackPlugin(conf));
 }
-
-module.exports = webpackConfig
