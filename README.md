@@ -100,6 +100,7 @@ vue2.0版本多页面入口,是由webpack配置来完成的
       var conf = {
         filename: pathname + '.html',
         template: pages[pathname], // 模板路径
+        chunks: [pathname], // 每个html引用的js模块
         inject: true              // js插入位置
       };
       // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
@@ -141,6 +142,7 @@ vue2.0版本多页面入口,是由webpack配置来完成的
         // filename: pathname + '.html',
         filename: pathname + '.html',
         template: pages[pathname], // 模板路径
+        chunks: [pathname], // 每个html引用的js模块
         inject: true              // js插入位置
       };
       // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
