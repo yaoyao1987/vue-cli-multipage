@@ -9,3 +9,9 @@ export default {
   name: 'list'
 }
 </script>
+
+<style>
+#list {
+    display: flex;
+}
+</style>

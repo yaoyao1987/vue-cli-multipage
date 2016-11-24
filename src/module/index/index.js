@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Add from './add'
 import List from './list'
 
-require('assets/a.css')
+import 'assets/a.css'
+// require('assets/a.css')
 
 Vue.use(VueRouter)
 

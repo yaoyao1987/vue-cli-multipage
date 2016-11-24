@@ -100,7 +100,7 @@ vue2.0版本多页面入口,是由webpack配置来完成的
       var conf = {
         filename: pathname + '.html',
         template: pages[pathname], // 模板路径
-        chunks: [pathname], // 每个html引用的js模块
+        chunks: [pathname, 'vendor', 'manifest'], // 每个html引用的js模块
         inject: true              // js插入位置
       };
       // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
@@ -142,12 +142,30 @@ vue2.0版本多页面入口,是由webpack配置来完成的
         // filename: pathname + '.html',
         filename: pathname + '.html',
         template: pages[pathname], // 模板路径
-        chunks: [pathname], // 每个html引用的js模块
+        chunks: [pathname, 'vendor', 'manifest'], // 每个html引用的js模块
         inject: true              // js插入位置
       };
       // 需要生成几个html文件，就配置几个HtmlWebpackPlugin对象
       module.exports.plugins.push(new HtmlWebpackPlugin(conf));
     }
+
+
+## css autoprefix的问题
+
+  外部引入的css未自动添加前缀，这个问题未解决
+
+  build之后组件内部的css未自动添加前缀
+  ```
+  return {
+    css: generateLoaders(['css?-autoprefixer']),
+    postcss: generateLoaders(['css?-autoprefixer']),
+    less: generateLoaders(['css?-autoprefixer', 'less']),
+    sass: generateLoaders(['css?-autoprefixer', 'sass?indentedSyntax']),
+    scss: generateLoaders(['css?-autoprefixer', 'sass']),
+    stylus: generateLoaders(['css?-autoprefixer', 'stylus']),
+    styl: generateLoaders(['css?-autoprefixer', 'stylus'])
+  }
+  ```
 
 ## 参考
 [vue-router2.0](http://gold.xitu.io/entry/57fcd8088ac2470058cadd6e)
