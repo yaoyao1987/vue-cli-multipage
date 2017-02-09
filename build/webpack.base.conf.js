@@ -3,6 +3,7 @@ var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 
+var autoprefixer = require('autoprefixer');
 var glob = require('glob');
 var entries = getEntry('./src/module/**/*.js'); // 获得入口js文件
 
@@ -12,6 +13,8 @@ var env = process.env.NODE_ENV
 var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
+
+var autoprefixerConf = autoprefixer({ browsers: ['last 2 versions','Android >= 4.0','iOS >= 6'] });
 
 module.exports = {
   // entry: {
@@ -84,25 +87,14 @@ module.exports = {
       }
     ]
   },
+  // js 中引入的样式处理
+  postcss: [autoprefixerConf],
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
   vue: {
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
-    postcss: [
-      require('autoprefixer')({
-        browsers: [
-          "Android 2.3",
-          "Android >= 4",
-          "Chrome >= 20",
-          "Firefox >= 19",
-          "Explorer >= 8",
-          "iOS >= 6",
-          "Opera >= 12",
-          "Safari >= 6"
-        ]
-      })
-    ]
+    postcss: [autoprefixerConf]
   }
 }
 

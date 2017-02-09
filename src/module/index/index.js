@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import Add from './add'
 import List from './list'
 
-import 'assets/a.css'
-// require('assets/a.css')
+// import 'assets/a.css'
+require('assets/a.css')
 
 Vue.use(VueRouter)
 
@@ -12,7 +12,7 @@ Vue.use(VueRouter)
 // 并且配置路由规则
 const router = new VueRouter({
   mode: 'history',
-  base: __dirname,
+  // base: baseUrl,
   routes: [
     {
       path: '/add',
