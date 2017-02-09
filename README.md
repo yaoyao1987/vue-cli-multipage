@@ -1,5 +1,52 @@
 # vue-cli多页面
 
+## 更新
+1. css autoprefix的问题
+  @luchanan的方案，具体可以参考[https://github.com/luchanan/vue2.0-multi-page](https://github.com/luchanan/vue2.0-multi-page)
+
+2. [Issues#22多页面多路由进入子路由页面直接刷新出错](https://github.com/yaoyao1987/vue-cli-multipage/issues/22#issuecomment-278212911)
+  @Deguang提到需要做http server配置，文档地址[http://router.vuejs.org/zh-cn/essentials/history-mode.html](http://router.vuejs.org/zh-cn/essentials/history-mode.html)
+  我在dev-server.js中简单得修改了以下代码
+  ```
+  // handle fallback for HTML5 history API
+  app.use(require('connect-history-api-fallback')({
+    rewrites: [
+      { from: /\/add$/, to: '/module/index.html'},
+      { from: /\/list$/, to: '/module/index.html'}
+    ]
+  }))
+  ```
+3. [Issues#21build之后的vendor.js把所有页面引入的库都放进去了]https://github.com/yaoyao1987/vue-cli-multipage/issues/21
+
+  以下修改方法并没有解决根本问题，只能控制vendor.js不会加载所有node_modules中的模块
+
+  在webpack.prod.conf.js中修改
+
+  ```
+  // split vendor js into its own file
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: function (module, count) {
+      // any required modules inside node_modules are extracted to vendor
+      return (
+        module.resource &&
+        /\.js$/.test(module.resource) &&
+        module.resource.indexOf(
+          path.join(__dirname, '../node_modules')
+        ) === 0
+      )
+    }
+  })
+  ```
+  改为
+  ```
+  new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendors', // 将公共模块提取，生成名为`vendors`的chunk
+      chunks: ['index','info'], //提取哪些模块共有的部分
+      minChunks: 2 // 提取至少2个模块共有的部分
+  })
+  ```
+
 > A Vue.js project
 
 ## Build Setup
@@ -149,23 +196,6 @@ vue2.0版本多页面入口,是由webpack配置来完成的
       module.exports.plugins.push(new HtmlWebpackPlugin(conf));
     }
 
-
-## css autoprefix的问题
-
-  外部引入的css未自动添加前缀，这个问题未解决
-
-  build之后组件内部的css未自动添加前缀
-  ```
-  return {
-    css: generateLoaders(['css?-autoprefixer']),
-    postcss: generateLoaders(['css?-autoprefixer']),
-    less: generateLoaders(['css?-autoprefixer', 'less']),
-    sass: generateLoaders(['css?-autoprefixer', 'sass?indentedSyntax']),
-    scss: generateLoaders(['css?-autoprefixer', 'sass']),
-    stylus: generateLoaders(['css?-autoprefixer', 'stylus']),
-    styl: generateLoaders(['css?-autoprefixer', 'stylus'])
-  }
-  ```
-
 ## 参考
 [vue-router2.0](http://gold.xitu.io/entry/57fcd8088ac2470058cadd6e)
+[luchanan的vue多页面配置](https://github.com/luchanan/vue2.0-multi-page)
